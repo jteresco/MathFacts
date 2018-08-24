@@ -4,7 +4,7 @@
 var problems = [];
 var currentProblemNum;
 var currentProblem;
-var timeLimit = 7;
+var timeLimit = 10;
 var timeLeft;
 var correctAnswerDelay = 1;
 var incorrectAnswerDelay = 3;
@@ -118,11 +118,22 @@ function clockTick() {
     timeLeft--;
     if (timeLeft == 0) {
 	// time's up
-	numTimeouts++;
-	document.getElementById("answer").disabled = true;
-	document.getElementById("answer").value = currentProblem.answer;
-	document.getElementById("message").innerHTML = "Time's up!  Remember for next time! " + currentProblem.problem + " = " + currentProblem.answer;
-	setTimeout(pickProblem, incorrectAnswerDelay*1000);
+
+	// check the answer
+	let answer = document.getElementById("answer").value.trim();
+	
+	if (answer == currentProblem.answer+"") {
+	    document.getElementById("message").innerHTML = "Correct!";
+	    problems.splice(currentProblemNum, 1);
+	    setTimeout(pickProblem, correctAnswerDelay*1000);
+	}
+	else {
+	    numTimeouts++;
+	    document.getElementById("answer").disabled = true;
+	    document.getElementById("answer").value = currentProblem.answer;
+	    document.getElementById("message").innerHTML = "Time's up!  Remember for next time! " + currentProblem.problem + " = " + currentProblem.answer;
+	    setTimeout(pickProblem, incorrectAnswerDelay*1000);
+	}
     }
     else {
 	if (timeLeft == 1) {
