@@ -6,6 +6,9 @@ var timeLeft;
 var answerDelay = 3;
 var lastTimeout;
 var numProblems = 50;
+var startTime;
+var numTimeouts;
+var numIncorrect;
 
 // add in all problems in range
 function allProblems(low, high) {
@@ -69,6 +72,9 @@ function initialize() {
 	}
     }
 
+    numIncorrect = 0;
+    numTimeouts = 0;
+    startTime = Date.now();
     // pick one to get started
     pickProblem();
 
@@ -108,6 +114,7 @@ function clockTick() {
     timeLeft--;
     if (timeLeft == 0) {
 	// time's up
+	numTimeouts++;
 	document.getElementById("answer").disabled = true;
 	document.getElementById("answer").value = currentProblem.answer;
 	document.getElementById("message").innerHTML = "Time's up!  Remember for next time! " + currentProblem.problem + " = " + currentProblem.answer;
@@ -143,13 +150,17 @@ function enterPressedInInput() {
 	problems.splice(currentProblemNum, 1);
     }
     else {
+	numIncorrect++;
 	document.getElementById("answer").value = currentProblem.answer;
 	document.getElementById("message").innerHTML = "That's incorrect!  Remember for next time! " + currentProblem.problem + " = " + currentProblem.answer;
     }
 
     if (problems.length == 0) {
+	let elapsedTime = Math.round((Date.now() - startTime) / 1000);
 	document.getElementById("leftToAnswer").innerHTML =
-	    "You got them all, well done!";
+	    "You got them all in " + elapsedTime + " seconds and got " +
+	    numIncorrect + " wrong and took too long on " + numTimeouts +
+	    " along the way.";
     }
     else {
 	setTimeout(pickProblem, answerDelay*1000);
