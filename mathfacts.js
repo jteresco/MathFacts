@@ -20,7 +20,7 @@ function allProblems(low, high) {
     for (let a = low; a <= high; a++) {
 	for (let b = low; b <= high; b++) {
 	    problems.push({
-		problem: a + " x " + b,
+		problem: a + " &times; " + b,
 		answer: a*b
 	    });
 	    problems.push({
@@ -54,7 +54,7 @@ function initialize() {
 	switch (nextOp) {
 	case 0:
 	    problems.push({
-		problem: a + " x " + b,
+		problem: a + " &times; " + b,
 		answer: a*b
 	    });
 	    nextOp = 1;
