@@ -5,14 +5,13 @@ var timeLimit = 7;
 var timeLeft;
 var answerDelay = 3;
 var lastTimeout;
+var numProblems = 50;
 
-function initialize() {
-
-    document.getElementById("answer").disabled = true;
-
-    // create the list of problems
-    for (let a = 3; a <= 10; a++) {
-	for (let b = 3; b <= 10; b++) {
+// add in all problems in range
+function allProblems(low, high) {
+    
+    for (let a = low; a <= high; a++) {
+	for (let b = low; b <= high; b++) {
 	    problems.push({
 		problem: a + " x " + b,
 		answer: a*b
@@ -28,6 +27,49 @@ function initialize() {
 	}
     }
 
+}
+
+function initialize() {
+
+    document.getElementById("answer").disabled = true;
+
+    // create the list of problems
+    
+    // start with the hard ones
+    allProblems(6,8);
+
+    // add in some random ones
+    let nextOp = 0; // *
+    while (problems.length < numProblems) {
+
+	let a = Math.floor(Math.random() * 11);
+	let b = Math.floor(Math.random() * 11);
+	switch (nextOp) {
+	case 0:
+	    problems.push({
+		problem: a + " x " + b,
+		answer: a*b
+	    });
+	    nextOp = 1;
+	    break;
+	case 1:
+	    problems.push({
+		problem: a + " + " + b,
+		answer: a+b
+	    });
+	    nextOp = 2;
+	    break;
+	case 2:
+	    problems.push({
+		problem: (a+b) + " - " + b,
+		answer: a
+	    });
+	    nextOp = 0;
+	    break;
+	}
+    }
+
+    // pick one to get started
     pickProblem();
 
     // add keypress listener to answer field
