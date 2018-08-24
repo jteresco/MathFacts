@@ -1,3 +1,6 @@
+// math facts web page by Jim Teresco
+// 2018-08-24
+
 var problems = [];
 var currentProblemNum;
 var currentProblem;
