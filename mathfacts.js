@@ -8,6 +8,7 @@ var lastTimeout;
 
 function initialize() {
 
+    document.getElementById("answer").disabled = true;
 
     // create the list of problems
     for (let a = 3; a <= 10; a++) {
@@ -46,6 +47,9 @@ function pickProblem() {
     currentProblemNum = Math.floor(Math.random() * problems.length);
     currentProblem = problems[currentProblemNum];
     document.getElementById("problem").innerHTML = currentProblem.problem;
+    document.getElementById("answer").disabled = false;
+    document.getElementById("answer").focus();
+    document.getElementById("answer").select();
     document.getElementById("answer").value = "";
 
     document.getElementById("message").innerHTML = "You have " + timeLimit + " seconds.";
@@ -62,6 +66,7 @@ function clockTick() {
     timeLeft--;
     if (timeLeft == 0) {
 	// time's up
+	document.getElementById("answer").disabled = true;
 	document.getElementById("answer").value = currentProblem.answer;
 	document.getElementById("message").innerHTML = "Time's up!  Remember for next time! " + currentProblem.problem + " = " + currentProblem.answer;
 	setTimeout(pickProblem, answerDelay*1000);
@@ -80,11 +85,13 @@ function clockTick() {
 
 function enterPressedInInput() {
 
-    // if time is up, we can't enter an answer
-    if (timeLeft == 0) return;
-
     // clear the timeout for the countdown
     clearTimeout(lastTimeout);
+
+    document.getElementById("answer").disabled = true;
+
+    // if time is up, we can't enter an answer
+    if (timeLeft == 0) return;
 
     // check the answer
     let answer = document.getElementById("answer").value.trim();
