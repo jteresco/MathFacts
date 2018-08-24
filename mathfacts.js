@@ -49,8 +49,8 @@ function initialize() {
     let nextOp = 0; // *
     while (problems.length < numProblems) {
 
-	let a = Math.floor(Math.random() * 11);
-	let b = Math.floor(Math.random() * 11);
+	let a = Math.floor(Math.random() * 11) + 2;
+	let b = Math.floor(Math.random() * 11) + 2;
 	switch (nextOp) {
 	case 0:
 	    problems.push({
@@ -122,7 +122,7 @@ function clockTick() {
 	document.getElementById("answer").disabled = true;
 	document.getElementById("answer").value = currentProblem.answer;
 	document.getElementById("message").innerHTML = "Time's up!  Remember for next time! " + currentProblem.problem + " = " + currentProblem.answer;
-	setTimeout(pickProblem, answerDelay*1000);
+	setTimeout(pickProblem, incorrectAnswerDelay*1000);
     }
     else {
 	if (timeLeft == 1) {
